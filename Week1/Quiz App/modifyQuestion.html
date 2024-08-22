@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soru Değiştir</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+  </style>
+
+</head>
+</head>
+
+<body>
+  <div class="navbarContainer">
+    <h2 >Soru Düzenle</h2>
+    <form >
+      <div class="formBox">
+        <input type="text" id="question" name="question" placeholder="Soru" ><br><br>
+      </div>
+      <div class="formBox">
+        <input type="text" id="answer1" name="answer1" placeholder="Şık A" >
+      </div>
+      <div class="formBox">
+        <input type="text" id="true1" name="true1" placeholder="true/false" ><br><br>
+      </div>
+      <div class="formBox">
+        <input type="text" id="answer2" name="answer2" placeholder="Şık B" >
+      </div>
+      <div class="formBox">
+        <input type="text" id="true2" name="true2" placeholder="true/false" ><br><br>
+      </div>
+      <div class="formBox">
+        <input type="text" id="answer3" name="answer3" placeholder="Şık C" >
+      </div>
+      <div class="formBox">
+        <input type="text" id="true3" name="true3" placeholder="true/false" ><br><br>
+      </div>
+      <div class="formBox">
+        <input type="text" id="answer4" name="answer4" placeholder="Şık D" >
+      </div>
+      <div class="formBox">
+        <input type="text" id="true4" name="true4" placeholder="true/false" ><br><br>
+      </div>
+      <div class="formBox">
+        <label for="diff">Zorluk:</label>
+        <select name="diff" id="diff" >
+          <option value="" selected disabled>Zorluk Seçiniz</option>
+          <option value=1>Kolay</option>
+          <option value=3>Orta</option>
+          <option value=5>Zor</option>
+        </select><br><br>
+      </div>
+      <div class="formBox">
+        <button style="width: 200px; height: 50px; " id="modifyQuestion">Soru Düzenle</button>
+      </div>
+    </form>
+    <button style="width: 200px; height: 50px; " id="homePageButton" onclick="goToHomePage()">Anasayfa</button>
+  </div>
+
+<script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+body {
+  background-color: #242424;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.hide {
+  display: none;
+}
+
+h1 { 
+  font-size: xxx-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+h2 { 
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+.questionList {
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #242424;
+  border-radius: 10px;
+}
+
+.questionList table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: Arial, sans-serif;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+button {
+  width: 50%;
+  height: 100px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: #d5d4d4;
+  color: #000;
+}
+
+/* Login Form For CSS */
+
+.questionText{
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+}
+
+.difficultyText{
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+}
+
+.startButton {
+  width: 100px; 
+  height: 50px; 
+}
+
+.btn {
+  width: 400px; 
+  height: 50px;
+}
+
+.header{
+  text-align: center;
+  margin-bottom: 150px;
+}
+.navbar {
+  display: flex;
+  justify-content: center;
+  width: 750px;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.navbarContainer {
+  position: relative;  
+  background-color: #3e3749;
+  color: white;
+  padding: 50px;
+  border-radius: 15px;
+}
+
+.navbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  width: 200px;
+  height: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.navbarContainer input {
+  margin: 0;
+}
+
+select {
+  width: 200px;
+  height: 37px;
+  border-radius: 15px;
+}
+
+option {
+  text-align: center;
+}
+
+.correct{
+  background-color:palegreen;
+}
+
+.wrong{
+  background-color: palevioletred;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sınav</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+  </style>
+
+</head>
+</head>
+
+<body>
+    <div class="navbarContainer">
+        <h1>Yavuzlar Quiz Platformu</h1>
+        <button style="width: 200px; height: 50px;" id="homePageButton" onclick="goToHomePage()">Anasayfa</button>
+        <div id="question" class="hide">
+            <div class="questionText" id="questionText">Question</div>
+            <div class="difficultyText" id="difficultyText">Diff</div>
+            <div id="answerButton" class="btn-grid">
+                <button class="btn">Answer1</button>
+                <button class="btn">Answer4</button>
+                <button class="btn">Answer4</button>
+                <button class="btn">Answer4</button>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="startButton" class="startButton btn">Start</button>
+            <button id="nextButton" class="nextButton btn hide">Next</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
