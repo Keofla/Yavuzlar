@@ -1,4 +1,13 @@
 <?php
+
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $surname = $_POST['surname'];
@@ -7,7 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = 'user';
     $created_at = date('d/m/Y');
 
-    $db = new PDO('sqlite:restaurant.db');
+    $dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+    $db = new PDO($dsn, $db_user, $db_pass);
     $stmt = $db->prepare("INSERT INTO users (name, surname, username, passwd, role, created_at) VALUES (:name, :surname, :username, :passwd, :role, :created_at)");
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':surname', $surname);

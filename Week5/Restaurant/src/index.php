@@ -5,7 +5,14 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$db = new PDO('sqlite:restaurant.db');
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
 $result = $db->query('SELECT * FROM users WHERE id='.$_SESSION['id']);
 $users = [];
 foreach ($result as $row) {
@@ -41,7 +48,7 @@ if (!isset($_GET["search"]) || $_GET["search"] == "") {
 
 else {
     $searchedName = '%'.$_GET['search'].'%';
-    $stmt = $db->query('SELECT id, restaurant_id, name, description, image_path, price, created_at, deleted_at FROM food WHERE AND name LIKE :searchedName');
+    $stmt = $db->prepare('SELECT id, restaurant_id, name, description, image_path, price, created_at, deleted_at FROM food WHERE name LIKE :searchedName');
     $stmt->bindParam(':searchedName', $searchedName, PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt;

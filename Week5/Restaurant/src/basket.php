@@ -5,7 +5,14 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$db = new PDO('sqlite:restaurant.db');
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
 $result = $db->query('SELECT * FROM users WHERE id='.$_SESSION['id']);
 $users = [];
 foreach ($result as $row) {
@@ -63,7 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST['coupon'] == $coupon['name']){
       $foodPrice = $foodPrice - $coupon['discount'];
     }
-    else{
+
+    else if ($_POST['coupon'] != '' && $_POST['coupon'] != $coupon['name']){
       echo "<script>
             alert('Geçersiz Kupon');
             window.location.href = 'basket.php';
@@ -89,14 +97,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $update->execute();
 
 
-    $update = $db->prepare("INSERT INTO 'order' (user_id, total_price, note, created_at) VALUES (:user_id, :total_price, :note, :created_at)");
+    $update = $db->prepare("INSERT INTO `order` (user_id, total_price, note, created_at) VALUES (:user_id, :total_price, :note, :created_at)");
     $update->bindParam(':user_id', $_SESSION['id'], PDO::PARAM_STR);
     $update->bindParam(':total_price', $total_price, PDO::PARAM_INT);
     $update->bindParam(':note', $note, PDO::PARAM_STR);
     $update->bindParam(':created_at', $created_at, PDO::PARAM_STR);
     $update->execute();
 
-    $result = $db->query("SELECT id FROM 'order' ORDER BY ID DESC LIMIT 1");
+    $result = $db->query("SELECT id FROM `order` ORDER BY ID DESC LIMIT 1");
     $orderID = [];
     foreach ($result as $row) {
       $orderID[] = [
@@ -104,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       ];
     }
 
-    $update = $db->prepare("INSERT INTO 'order_items' (food_id, order_id, quantity, price) VALUES (:food_id, :order_id, :quantity, :price)");
+    $update = $db->prepare("INSERT INTO `order_items` (food_id, order_id, quantity, price) VALUES (:food_id, :order_id, :quantity, :price)");
     $update->bindParam(':food_id', $_POST['foodID'], PDO::PARAM_INT);
     $update->bindParam(':order_id', $orderID[0]['id'], PDO::PARAM_INT);
     $update->bindParam(':quantity', $quantity, PDO::PARAM_INT);

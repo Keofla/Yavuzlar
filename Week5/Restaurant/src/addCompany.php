@@ -5,8 +5,16 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 'admin') {
     exit();
 }
 
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
+
 $companies = [];
-$db = new PDO('sqlite:restaurant.db');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $description = $_POST['description'];

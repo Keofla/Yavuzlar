@@ -5,7 +5,14 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 'company') {
     exit();
 }
 
-$db = new PDO('sqlite:restaurant.db');
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
 $result = $db->query('SELECT * FROM users WHERE id='.$_SESSION['id']);
 $users = [];
 foreach ($result as $row) {

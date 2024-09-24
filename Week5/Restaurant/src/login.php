@@ -1,11 +1,18 @@
 <?php
 session_start();
 
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $passwd = $_POST['passwd'];
 
-    $db = new PDO('sqlite:restaurant.db');
+    $dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+    $db = new PDO($dsn, $db_user, $db_pass);
     $stmt = $db->prepare("SELECT * FROM users WHERE username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
@@ -14,17 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($passwd, $user['passwd'])) {
         $_SESSION['id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
-        if ($user['deleted_at'] != null) {
-          header("Location: login.php");
-        }
-        else {
-            header("Location: index.php");
-        }
-    } 
-    else {
-        echo "<script>
-            alert('Yanlış kullanıcı adı veya Parola');
-          </script>";
+        header("Location: index.php");
+    } else {
+        echo "<script>alert('Yanlış kullanıcı adı veya Parola');</script>";
     }
 }
 ?>

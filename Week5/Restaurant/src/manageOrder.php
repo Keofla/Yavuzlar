@@ -5,7 +5,14 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 'company') {
     exit();
 }
 
-$db = new PDO('sqlite:restaurant.db');
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
 
 $result = $db->query('SELECT company_id FROM users WHERE id ='.$_SESSION['id']);
 $companyID = '';
@@ -45,7 +52,7 @@ foreach ($foods as $food) {
 $orders = [];
 $users = [];
 foreach ($orderItems as $index => $orderItem) {
-    $result = $db->query("SELECT * FROM 'order' WHERE id = ".$orderItem['order_id']);
+    $result = $db->query("SELECT * FROM `order` WHERE id = ".$orderItem['order_id']);
     foreach ($result as $row) {
         $orders[] = [
             'id' => $row['id'],
@@ -57,7 +64,7 @@ foreach ($orderItems as $index => $orderItem) {
             'note' => $row['note']];
     }
 
-    $result = $db->query("SELECT * FROM 'users' WHERE id = ".$orders[$index]['user_id']);
+    $result = $db->query("SELECT * FROM `users` WHERE id = ".$orders[$index]['user_id']);
     foreach ($result as $row) {
         $users[] = [
             'id' => $row['id'],
@@ -71,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ( $order_status == 'Teslim Edildi'){
         $deleted_at = date('d/m/Y');
-        $update = $db->prepare("UPDATE 'order' SET order_status = :order_status, deleted_at = :deleted_at WHERE id = :id");
+        $update = $db->prepare("UPDATE `order` SET order_status = :order_status, deleted_at = :deleted_at WHERE id = :id");
         $update->bindParam(':id', $order_id, type: PDO::PARAM_INT);
         $update->bindParam(':order_status', $order_status, PDO::PARAM_STR);
         $update->bindParam(':deleted_at', $deleted_at, PDO::PARAM_STR);
@@ -80,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     else{
-        $update = $db->prepare("UPDATE 'order' SET order_status = :order_status WHERE id = :id");
+        $update = $db->prepare("UPDATE `order` SET order_status = :order_status WHERE id = :id");
         $update->bindParam(':id', $order_id, type: PDO::PARAM_INT);
         $update->bindParam(':order_status', $order_status, PDO::PARAM_STR);
         $update->execute();

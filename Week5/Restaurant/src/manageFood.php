@@ -5,7 +5,14 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$db = new PDO('sqlite:restaurant.db');
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
+
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
 
 $result = $db->query('SELECT company_id FROM users WHERE id ='.$_SESSION['id']);
 $companyID = '';
@@ -56,7 +63,7 @@ if (isset($_GET['id'])) {
     $update->bindParam(':deleted_at', $date, PDO::PARAM_STR);
     $update->bindParam(':id', $id, PDO::PARAM_INT);
     $update->execute();
-    header("Location: ManageFood.php");
+    header("Location: manageFood.php");
 }
 ?>
 

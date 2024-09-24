@@ -4,9 +4,15 @@ if (!isset($_SESSION['id'])) {
     header("Location: index.php");
     exit();
 }
+$db_host = 'db';
+$db_port = '3306';
+$db_user = 'user';
+$db_pass = 'user';
+$db_name = 'restaurantapp';
 
-$db = new PDO('sqlite:restaurant.db');
-$result = $db->query("SELECT * FROM 'order' WHERE user_id=".$_SESSION['id']);
+$dsn = "mysql:host=$db_host;port=$db_port;dbname=$db_name";
+$db = new PDO($dsn, $db_user, $db_pass);
+$result = $db->query("SELECT * FROM `order` WHERE user_id=".$_SESSION['id']);
 $orders = [];
 foreach ($result as $row) {
     $orders[] = [
@@ -20,7 +26,7 @@ foreach ($result as $row) {
 
 $orderItems = [];
 foreach ($orders as $index => $order) {  
-    $result = $db->query("SELECT * FROM 'order_items' WHERE order_id=".$order['id']." ORDER BY order_id");
+    $result = $db->query("SELECT * FROM `order_items` WHERE order_id=".$order['id']." ORDER BY order_id");
     foreach ($result as $row) {
         $orderItems[] = [
             'id' => $row['id'],
@@ -32,7 +38,7 @@ foreach ($orders as $index => $order) {
 
 $foods = [];
 foreach ($orderItems as $index => $orderItem) {  
-    $result = $db->query("SELECT * FROM 'food' WHERE id=".$orderItem['food_id']);
+    $result = $db->query("SELECT * FROM `food` WHERE id=".$orderItem['food_id']);
     foreach ($result as $row) {
         $foods[] = [
             'name' => $row['name']

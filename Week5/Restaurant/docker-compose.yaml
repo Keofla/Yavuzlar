@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: restaurantapp
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./src/restaurant.sql:/docker-entrypoint-initdb.d/restaurant.sql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      MYSQL_DBHOST: db          
+      MYSQL_DBUSER: user      
+      MYSQL_DBPASS: user       
+      MYSQL_DBNAME: restaurantapp
+
+volumes:
+  db_data:
