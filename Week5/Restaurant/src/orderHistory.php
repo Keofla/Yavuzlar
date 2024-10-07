@@ -66,12 +66,12 @@ foreach ($orderItems as $index => $orderItem) {
   <div class="navbarContainer">
     <?php foreach ($orders as $index => $order):?>
         <div class="orderCard">
-            <div class="orderItem">Yemek: <?php echo $foods[$index]['name'];?></div>
-            <div class="orderItem">Miktar: <?php echo $orderItems[$index]['quantity'];?></div>
-            <div class="orderItem">Sipraiş Durumu: <?php echo $order['order_status'];?></div>
-            <div class="orderItem">Toplam Tutar: <?php echo $order['total_price'];?></div>
-            <div class="orderItem">Not: <?php echo $order['note'];?></div>
-            <div class="orderItem">Sipariş Tarihi: <?php echo $order['created_at'];?></div><br></br>
+            <div class="orderItem">Yemek: "<?php echo $foods[$index]['name'];?>"</div>
+            <div class="orderItem">Miktar: "<?php echo $orderItems[$index]['quantity'];?>"</div>
+            <div class="orderItem">Sipraiş Durumu: "<?php echo $order['order_status'];?>"</div>
+            <div class="orderItem">Toplam Tutar: "<?php echo $order['total_price'];?>"</div>
+            <div class="orderItem">Not: "<?php echo $order['note'];?>"</div>
+            <div class="orderItem">Sipariş Tarihi: "<?php echo $order['created_at'];?>"</div><br></br>
         </div>
     <?php endforeach; ?>
     </div>

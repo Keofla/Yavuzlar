@@ -104,7 +104,7 @@ else {
       <tbody id="companyList">
         <?php foreach ($companies as $index => $company): ?>
           <tr>
-            <td><img src=<?php echo $company['logo_path']; ?> alt="image" style="margin-left: 5%; width: 50px; height: auto;"></td>
+            <td><img src="images\logos\<?php echo $company['logo_path']; ?>" alt="image" style="margin-left: 5%; width: 50px; height: auto;"></td>
             <td style="color:black" style="color:black"><?php echo $company['name']; ?></td>
             <td style="color:black"><?php echo $company['description']; ?></td>
             <?php if (isset($_GET["filtre"])): ?>

@@ -106,7 +106,7 @@ if (isset($_GET['id'])) {
       <tbody id="list">
         <?php foreach ($foods as $index => $food): ?>
           <tr>
-            <td><img src=<?php echo $food['image_path']; ?> alt="image" style="margin-left: 5%; width: 50px; height: auto;"></td>
+            <td><img src="images\foods\<?php echo $food['image_path']; ?>" alt="image" style="margin-left: 5%; width: 50px; height: auto;"></td>
             <td style="color:black"><?php foreach ($restaurants as $index => $restaurant){
                 if($food['restaurant_id'] == $restaurant['id']){
                     echo $restaurant['name'];

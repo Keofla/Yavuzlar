@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Şirket Düzenle</h2>
     <form action="" method="POST" enctype="multipart/form-data">
         <div class="formBox">
-            <img src="<?php echo $companies[0]['logo_path']; ?>" alt="image" style="margin-left: 5%; width: 200px; height: auto;">
+            <img src="images\logos\<?php echo $companies[0]['logo_path']; ?>" alt="image" style="margin-left: 5%; width: 200px; height: auto;">
         </div>
         <div>
             <label for="logo">Upload Image</label>

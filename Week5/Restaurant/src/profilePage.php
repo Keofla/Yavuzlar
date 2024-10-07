@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="navbarContainer">
     <form action="" method="POST" enctype="multipart/form-data">
         <div class="formBox">
-            <img src="<?php echo $users['pfp_path']; ?>" alt="image" style="margin-left: 5%; width: 200px; height: auto;">
+            <img src="images\profilePic\<?php echo $users['pfp_path']; ?>" alt="image" style="margin-left: 5%; width: 200px; height: auto;">
         </div>
         <div>
             <label for="logo">Resim Yükle</label>

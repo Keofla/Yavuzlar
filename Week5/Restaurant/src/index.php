@@ -149,7 +149,7 @@ if (isset($_GET["id"])) {
             <button type="submit" name="order" value="ASC">Artan Fiyat</button>
         </form>
   <?php foreach ($restaurants as $index => $restaurant):?>
-    <div><img src=<?php echo $restaurant['imape_path']; ?> alt="image" style="margin-left: 5%; width: 50px; height: auto;">
+    <div><img src="images\restaurant\<?php echo $restaurant['imape_path']; ?>" alt="image" style="margin-left: 5%; width: 50px; height: auto;">
           <?php echo $restaurant['name'];?>
           Puan: <?php echo $avgScores[$index]['averageScore'];?>
           <button class="button" onclick="window.location.href='comments.php?id=<?php echo $restaurant['id'];?>'">Yorumlar</button>
@@ -170,7 +170,7 @@ if (isset($_GET["id"])) {
         <?php foreach ($foods as $index => $food): ?>
           <?php if ($food['restaurant_id'] == $restaurant['id']):?>
           <tr>
-            <td><img src=<?php echo $food['image_path']; ?> alt="image" style="margin-left: 5%; width: 50px; height: auto;"></td>
+            <td><img src="images\foods\<?php echo $food['image_path']; ?>" alt="image" style="margin-left: 5%; width: 50px; height: auto;"></td>
             <td><?php echo $food['name']; ?></td>
             <td><?php echo $food['description']; ?></td>
             <td><?php echo $food['price']; ?></td>
