@@ -5,6 +5,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+$_SESSION['shuffledQuestions'] = null;
+$_SESSION['currentQuestion'] = 0;
+
 $db = new PDO('sqlite:QuestAppDB.db');
 $result = $db->query('SELECT * FROM user ORDER BY point DESC');
 $users = [];
