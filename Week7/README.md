@@ -16,6 +16,12 @@ Kullanıcının yetkisi olduğu sürece bulunan dizindeki dosyaları silebilir.
 Kullanıcı yetkisinin olduğu bütün dizinlere dosya yüklemesi yapabilir.
 (yüklenen dosyanın listede gözükmesi için sayfanın yenilenmesi gerekir.)
 
+#### Dosya Düzenleme:
+Kullanıcı yetki sahibi olduğu dosyaların içeriğini değiştirebilir.
+
+#### Dosya İndirme:
+--Daha Eklenmedi--
+
 ### Konfigurasyon Dosyası Bul:
 Girilen dizin üzerindeki bütün .conf .cnf ve .cfg uzantılı dosyaları sıralar.
 
