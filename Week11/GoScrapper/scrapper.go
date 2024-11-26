@@ -12,6 +12,7 @@ import (
 type SiteConfig struct {
 	Site             string `json:"site"`
 	NextPageSelector string `json:"nextPageSelector"`
+	Body             string `json:"body"`
 	Data             string `json:"data"`
 	Title            string `json:"title"`
 }
@@ -41,7 +42,7 @@ func main() {
 		fmt.Printf("Scraping site: %s\n", site.Site)
 
 		pageCounter := 0
-		const maxPages = 1
+		const maxPages = 3
 
 		c.OnHTML(site.NextPageSelector, func(e *colly.HTMLElement) {
 			if pageCounter >= maxPages {
@@ -57,12 +58,14 @@ func main() {
 			}
 		})
 		c.OnHTML("html", func(e *colly.HTMLElement) {
-			currentTitle := e.ChildText(site.Title)
-			currentData := e.ChildText(site.Data)
+			e.ForEach(site.Body, func(_ int, el *colly.HTMLElement) {
+				currentTitle := el.ChildText(site.Title)
+				currentData := el.ChildText(site.Data)
 
-			scrapedData = append(scrapedData, dataConfig{
-				Title: currentTitle,
-				Data:  currentData,
+				scrapedData = append(scrapedData, dataConfig{
+					Title: currentTitle,
+					Data:  currentData,
+				})
 			})
 		})
 

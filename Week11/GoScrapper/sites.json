@@ -2,18 +2,21 @@
     {
         "site": "https://docs.yavuzlar.org/araclar/aircrack-ng",
         "nextPageSelector": "a.group",
+        "body": "main.flex-1",
         "title": "h1.text-4xl",
         "data": "main.flex-1"
-    },
+        },
     {
         "site": "https://thehackernews.com",
         "nextPageSelector": "a.blog-pager-older-link-mobile",
+        "body": "div.body-post",
         "title": "h2.home-title",
         "data": "div.home-desc"
     },
     {
         "site": "https://blog.archive.org/",
         "nextPageSelector": "div.nav-previous",
+        "body": "article",
         "title": "h1.entry-title",
         "data": "div.entry-content"
     }
