@@ -5,9 +5,31 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 
 	"golang.org/x/crypto/ssh"
 )
+
+func fileSSHRequest(username string, password string, ip string, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	config := &ssh.ClientConfig{
+		User: username,
+		Auth: []ssh.AuthMethod{
+			ssh.Password(password),
+		},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	}
+
+	client, err := ssh.Dial("tcp", ip, config)
+	if err != nil {
+		fmt.Println(username, " ve ", password, " bilgileri ile SSH bağlantısı sağlanamadı:")
+		return
+	}
+	defer client.Close()
+
+	fmt.Println(username, " ve ", password, " bilgileri ile SSH bağlantısı sağlandı")
+}
 
 func main() {
 
@@ -60,25 +82,14 @@ func main() {
 			paswords = append(paswords, pf.Text())
 		}
 
+		var wg sync.WaitGroup
+
 		for _, username := range usernames {
 			for _, password := range paswords {
-				config := &ssh.ClientConfig{
-					User: username,
-					Auth: []ssh.AuthMethod{
-						ssh.Password(password),
-					},
-					HostKeyCallback: ssh.InsecureIgnoreHostKey(),
-				}
-
-				client, err := ssh.Dial("tcp", ip, config)
-				if err != nil {
-					fmt.Println(username, " ve ", password, " bilgileri ile SSH bağlantısı sağlanamadı")
-					continue
-				}
-				defer client.Close()
-
-				fmt.Println(username, " ve ", password, " bilgileri ile SSH bağlantısı sağlandı")
+				wg.Add(1)
+				go fileSSHRequest(username, password, ip, &wg)
 			}
+			wg.Wait()
 		}
 
 	} else {
